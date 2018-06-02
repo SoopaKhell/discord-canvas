@@ -1,3 +1,4 @@
+#!/usr/local/bin/python
 import discord
 import asyncio
 import random
@@ -139,7 +140,7 @@ async def on_message(message):
                 canvas = canvasim.load()
                 canvas[pixeldata.xy[0],pixeldata.xy[1]] = pixeldata.rgb
                 canvasim.save("canvas.png")
-                canvasim.resize((1000,1000), Image.NEAREST).save("canvasupscaled.png")
+                canvasim.resize((400, 400), Image.NEAREST).save("canvasupscaled.png")
                 with open('canvasupscaled.png', 'rb') as f:
                     await client.send_file(message.channel, f)
         elif "view colors" in message.content.lower():
