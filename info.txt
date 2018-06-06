@@ -13,15 +13,23 @@ RGB values may also be used (For example: "255 0 0", or
 Use wikipedia's color list to find the color you want. All names from this list are usable:
 https://simple.wikipedia.org/wiki/List_of_colors
 ```p 42 42 Apricot```
-
+On colors with spaces, use dashes (-) instead. (Case does not matter)
 
 To only view the Canvas without editing it, use this command:
-```view canvas```
+```p view canvas```
 
 To view a list of colors, use this command (colors may be uppercase or lowercase):
-```view colors```
+```p view colors```
+
+To view this infomation, use this command:
+```p view info```
+
+To get an invite to the main server, use this command:
+```p view invite```
+
+To invite the bot to your server, use this command:
+```p view botinvite```
 
 Other Useful Info:
-For easier viewing of the Canvas, it is recommended that you increase Discord's zoom level under Appearance.
-If there are any bugs, please notify @SoopaKhell#5097 and be patient. They are usually resolved within minutes.
-On colors with spaces, use dashes (-) instead. (Case does not matter)
+• For easier viewing of the Canvas, it is recommended that you increase Discord's zoom level under Appearance.
+• If there are any bugs, please notify @SoopaKhell#5097 and be patient. They are usually resolved within minutes.

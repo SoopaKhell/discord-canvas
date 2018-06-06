@@ -128,6 +128,10 @@ colorlist = '\n'.join([x for x in colors])
 
 
 @client.event
+async def on_server_join(server):
+    print(server.name)
+
+@client.event
 async def on_ready():
     print("====================== Ready ======================")
 
@@ -144,6 +148,10 @@ async def on_message(message):
         elif message.content.lower().startswith("p view canvas"):
             with open('canvasupscaled.png', 'rb') as f:
                 await client.send_file(message.channel, f)
+        elif message.content.lower().startswith("p view invite"):
+            await client.send_message(message.author, "Here is an invite to the main canvas server.\nhttps://discord.gg/pfarGzd")
+        elif message.content.lower().startswith("p view botinvite"):
+            await client.send_message(message.author, "Here is an link to add canvas to your server.\nhttps://discordapp.com/oauth2/authorize?client_id=453980686265745413&permissions=34816&scope=bot")
         else: #it is not a view command, so it's a command to place a pixel
             pixeldata = Pixel(message.content)
             if pixeldata.faulty:
