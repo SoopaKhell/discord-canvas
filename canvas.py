@@ -99,38 +99,52 @@ colors = {
 
 class Pixel:
     def __init__(self, msg):
-        self.faulty = False
-        self.rgb = None
+        try:
+            self.faulty = False
+            self.rgb = None
 
-        data = msg.lower().strip("p ").split(" ")
-        self.xy = int(data[0]), int(data[1])
-        if len(data) == 3:
-            if not (self.xy[0] in range(100) or self.xy[1] in range(100)):
+            data = msg.lower().strip("p ").split(" ")
+            self.xy = int(data[0]), int(data[1])
+            if len(data) == 3:
+                if not (self.xy[0] in range(100) or self.xy[1] in range(100)):
+                    self.faulty = True
+                    pass
+                try: self.rgb = colors[data[2].lower()]
+                except KeyError: self.faulty = True
+            elif len(data) == 5:
+                self.rgb = int(data[2]), int(data[3]), int(data[4])
+                if not (self.rgb[0] in range(256) or self.rgb[1] in range(256) or self.rgb[2] in range(256)):
+                    self.faulty = True
+                    pass
+            else:
                 self.faulty = True
                 pass
-            try: self.rgb = colors[data[2].lower()]
-            except KeyError: self.faulty = True
-        elif len(data) == 5:
-            self.rgb = int(data[2]), int(data[3]), int(data[4])
-            if not (self.rgb[0] in range(256) or self.rgb[1] in range(256) or self.rgb[2] in range(256)):
-                self.faulty = True
-                pass
-        else:
-            self.faulty = True
-            pass
+        except: self.faulty = True
 
 
 client = discord.Client()
+
+colorlist = '\n'.join([x for x in colors])
+
 
 @client.event
 async def on_ready():
     print("====================== Ready ======================")
 
+
+
 @client.event
 async def on_message(message):
-    if message.author != client.user:
-        print(message.content)
-        if message.content.lower().startswith("p "):
+    if message.content.lower().startswith("p ") and message.author != client.user: #it is indeed a canvas command
+        if message.content.lower().startswith("p view colors"):
+            await client.send_message(message.author, "List of avaliable colors:\n" + colorlist)
+        elif message.content.lower().startswith("p view info"):
+            with open('info.txt') as f:
+                await client.send_message(message.author, f.read())
+        elif message.content.lower().startswith("p view canvas"):
+            with open('canvasupscaled.png', 'rb') as f:
+                await client.send_file(message.channel, f)
+        else: #it is not a view command, so it's a command to place a pixel
             pixeldata = Pixel(message.content)
             if pixeldata.faulty:
                 await client.send_message(message.channel, message.author.mention + " Invalid pixel. Check how many spaces you have. X and Y must be below 99 (between and including 0 and 99), colors must contain no spaces and must be valid.")
@@ -140,21 +154,10 @@ async def on_message(message):
                 canvas = canvasim.load()
                 canvas[pixeldata.xy[0],pixeldata.xy[1]] = pixeldata.rgb
                 canvasim.save("canvas.png")
-                canvasim.resize((400, 400), Image.NEAREST).save("canvasupscaled.png")
+                canvasim.resize((500,500), Image.NEAREST).save("canvasupscaled.png")
                 with open('canvasupscaled.png', 'rb') as f:
                     await client.send_file(message.channel, f)
-        elif "view colors" in message.content.lower():
-            colorlist = ""
-            for x in colors.keys():
-                colorlist += "\n"+x.replace(" ", "-").lower()
-            await client.send_message(message.author, "List of avaliable colors:" + colorlist)
-        elif "view canvas" in message.content.lower():
-            with open('canvasupscaled.png', 'rb') as f:
-                await client.send_file(message.channel, f)
-
-        elif str(message.author) in open("admins.txt").read():
-            #Only run these commands if an admin said them
-            pass
+        
 
 
 with open("key.txt") as f:

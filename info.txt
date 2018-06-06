@@ -1,0 +1,27 @@
+To paint on the Canvas, you can use the following command:
+
+```p 0 0 Black```
+
+The above command will place a black (0, 0, 0) pixel at the coordinates (0, 0) (The top-left most pixel). The board is 100x100, but it begins at (0, 0), so it ends at (99, 99).
+
+```p 99 99 Black```
+
+This command will place a black pixel in the bottom-right most pixel (99, 99).
+
+RGB values may also be used (For example: "255 0 0", or 
+"255 0 9", etc).
+Use wikipedia's color list to find the color you want. All names from this list are usable:
+https://simple.wikipedia.org/wiki/List_of_colors
+```p 42 42 Apricot```
+
+
+To only view the Canvas without editing it, use this command:
+```view canvas```
+
+To view a list of colors, use this command (colors may be uppercase or lowercase):
+```view colors```
+
+Other Useful Info:
+For easier viewing of the Canvas, it is recommended that you increase Discord's zoom level under Appearance.
+If there are any bugs, please notify @SoopaKhell#5097 and be patient. They are usually resolved within minutes.
+On colors with spaces, use dashes (-) instead. (Case does not matter)
